@@ -5,6 +5,24 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+
+
+
+
+
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\StudentController;
+
+Route::get('/', [DashboardController::class, 'index']);
+
+
+Route::get('/test', 'StudentController@test');
+
+
+Route::inertia('/students', 'Students/Index')->name('students.index');
+Route::inertia('/students/create', 'Students/Create')->name('students.create');
+Route::inertia('/students/{student}/edit', 'Students/Edit')->name('students.edit');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,18 +34,10 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
